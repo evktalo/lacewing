@@ -1,0 +1,80 @@
+
+void init_sound(void);
+void play_sound(int sample);
+void play_sound2(int sample, int frq, int vol, int pan);
+void play_soundf(int sample, int frq);
+void play_sound_pos(int sample, int frq, int vol, int x2, int y2);
+void kill_drive_sounds(void);
+
+void play_ambience(void);
+void calculate_ambience(void);
+
+enum
+{
+SOUNDMODE_OFF,
+SOUNDMODE_MONO,
+SOUNDMODE_STEREO,
+SOUNDMODE_REVERSED
+};
+
+
+enum
+{
+WAV_NONE,
+WAV_CANNON,
+WAV_ENGINE,
+WAV_WOBBLE,
+WAV_LONG_WOBBLE,
+WAV_WARP_IN,
+WAV_BANG1,
+WAV_WHINE,
+WAV_HARD_ZAP,
+WAV_BOSS2,
+WAV_STING,
+WAV_BUMP,
+WAV_BOMBS,
+WAV_BLORT,
+WAV_STING4,
+WAV_MISSILE,
+WAV_ALARM,
+WAV_ZAPNOTE1,
+WAV_ZAPNOTE2,
+WAV_BLAST,
+WAV_MINE,
+WAV_SHORTZAP,
+WAV_BLAT,
+WAV_SHORTZAP2,
+WAV_SUN,
+WAV_THRUM,
+WAV_CROAK,
+WAV_MINEBANG,
+WAV_GREENSEEKER1,
+WAV_GREENSEEKER2,
+WAV_TORPEDO,
+WAV_BOSS3_1,
+WAV_BOSS3_2,
+WAV_BOSS3_3,
+WAV_ASPAWN,
+WAV_GAME_OVER,
+WAV_TUBE,
+WAV_UPGRADE,
+WAV_SHIELD,
+WAV_REPAIR,
+WAV_SEEKMINE,
+WAV_PLASMA,
+WAV_LEVEL_END,
+WAV_MENU1,
+WAV_MENU2,
+WAV_EXTRA_SHIP,
+WAV_ORBITAL,
+WAV_PICKUP_UPGRADE,
+WAV_SEEKBLOB_BANG,
+WAV_BUMP2,
+WAV_HIT,
+WAV_HOSTILE,
+WAV_MUTATE,
+NO_WAVS
+
+};
+
+
