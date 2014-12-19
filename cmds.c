@@ -36,6 +36,8 @@ got around to changing it.
 */
 
 
+#define ALLEGRO_NO_CLEAR_BITMAP_ALIAS
+#define ALLEGRO_NO_VHLINE_ALIAS
 #include "allegro.h"
 
 #include <math.h>
@@ -227,10 +229,10 @@ void actor_slide(int thractor, int direction)
 {
  if (actor[thractor].upgraded_system [UPG_SLIDE] == 0)
   return;
-// int x_accel = cos(angle_to_radians(actor[thractor].angle) + (PI / 2) * direction) * actor[thractor].slide;
-// int y_accel = sin(angle_to_radians(actor[thractor].angle) + (PI / 2) * direction) * actor[thractor].slide;
-/* int x_accel = cos(angle_to_radians(actor[thractor].angle) + PI / 4 + (PI / 2) * direction) * actor[thractor].slide;
- int y_accel = sin(angle_to_radians(actor[thractor].angle) + PI / 4 + (PI / 2) * direction) * actor[thractor].slide;
+// int x_accel = cos(angle_to_radians(actor[thractor].angle) + (M_PI / 2) * direction) * actor[thractor].slide;
+// int y_accel = sin(angle_to_radians(actor[thractor].angle) + (M_PI / 2) * direction) * actor[thractor].slide;
+/* int x_accel = cos(angle_to_radians(actor[thractor].angle) + M_PI / 4 + (M_PI / 2) * direction) * actor[thractor].slide;
+ int y_accel = sin(angle_to_radians(actor[thractor].angle) + M_PI / 4 + (M_PI / 2) * direction) * actor[thractor].slide;
  actor[thractor].x_speed += x_accel;
  actor[thractor].y_speed += y_accel;
 
@@ -257,8 +259,8 @@ void actor_slide(int thractor, int direction)
  make_drive_sound(thractor, DRIVE_SLIDE);
 
 /*
- float xcos = cos(angle_to_radians(actor[thractor].angle) + (PI / 2) + (PI/2) * direction);
- float ysin = sin(angle_to_radians(actor[thractor].angle) + (PI / 2) + (PI/2) * direction);
+ float xcos = cos(angle_to_radians(actor[thractor].angle) + (M_PI / 2) + (PI/2) * direction);
+ float ysin = sin(angle_to_radians(actor[thractor].angle) + (M_PI / 2) + (PI/2) * direction);
  int x_accel = xcos * thrust_amount / actor[thractor].engine_demand;
  int y_accel = ysin * thrust_amount / actor[thractor].engine_demand;
  actor[thractor].x_speed -= x_accel;
@@ -296,8 +298,8 @@ void actor_brake(int thractor)
   make_drive_sound(thractor, DRIVE_RETRO);
 //  actor_sound(thractor, 3);
 /*
-  float xcos = cos(angle_to_radians(actor[thractor].angle) - PI/2);
-  float ysin = sin(angle_to_radians(actor[thractor].angle) - PI/2);
+  float xcos = cos(angle_to_radians(actor[thractor].angle) - M_PI/2);
+  float ysin = sin(angle_to_radians(actor[thractor].angle) - M_PI/2);
   int x_accel = xcos * thrust_amount / actor[thractor].engine_demand;
   int y_accel = ysin * thrust_amount / actor[thractor].engine_demand;
   actor[thractor].x_speed -= x_accel;
@@ -329,8 +331,8 @@ void actor_thrust(int thractor)
  thrust_amount += actor[thractor].upgraded_system [UPG_SPEED] * 13;
  thrust_amount /= actor[thractor].engine_demand;
 /*
- float xcos = cos(angle_to_radians(actor[thractor].angle) + PI/2);
- float ysin = sin(angle_to_radians(actor[thractor].angle) + PI/2);
+ float xcos = cos(angle_to_radians(actor[thractor].angle) + M_PI/2);
+ float ysin = sin(angle_to_radians(actor[thractor].angle) + M_PI/2);
  int x_accel = xcos * thrust_amount / actor[thractor].engine_demand;
  int y_accel = ysin * thrust_amount / actor[thractor].engine_demand;
  actor[thractor].x_speed -= x_accel;

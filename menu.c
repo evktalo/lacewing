@@ -32,6 +32,8 @@ which are authorised to write directly to the screen.
 
 */
 
+#define ALLEGRO_NO_CLEAR_BITMAP_ALIAS
+#define ALLEGRO_NO_VHLINE_ALIAS
 #include "allegro.h"
 
 #include <stdlib.h>
@@ -226,7 +228,7 @@ void init_menus_once_only(void)
 
  RGB temp_palette [256];
 
- BITMAP *temp_bmp = load_bitmap("gfx\\title_i.bmp", temp_palette);
+ BITMAP *temp_bmp = load_bitmap("gfx//title_i.bmp", temp_palette);
 
  if (!temp_bmp)
  {
@@ -246,7 +248,7 @@ void init_menus_once_only(void)
 
  destroy_bitmap(temp_bmp);
 
- temp_bmp = load_bitmap("gfx\\title_o.bmp", temp_palette);
+ temp_bmp = load_bitmap("gfx//title_o.bmp", temp_palette);
 
  if (!temp_bmp)
  {
@@ -266,7 +268,7 @@ void init_menus_once_only(void)
 
  destroy_bitmap(temp_bmp);
 
- temp_bmp = load_bitmap("gfx\\title_s.bmp", temp_palette);
+ temp_bmp = load_bitmap("gfx//title_s.bmp", temp_palette);
 
  if (!temp_bmp)
  {
@@ -286,7 +288,7 @@ void init_menus_once_only(void)
 
  destroy_bitmap(temp_bmp);
 
- upgrade_box1 = load_bitmap("gfx\\upg_box.bmp", temp_palette);
+ upgrade_box1 = load_bitmap("gfx//upg_box.bmp", temp_palette);
 
  if (!upgrade_box1)
  {
@@ -295,7 +297,7 @@ void init_menus_once_only(void)
       exit(1);
  }
 
- upgrade_box2 = load_bitmap("gfx\\upg_box2.bmp", temp_palette);
+ upgrade_box2 = load_bitmap("gfx//upg_box2.bmp", temp_palette);
 
  if (!upgrade_box2)
  {
@@ -304,7 +306,7 @@ void init_menus_once_only(void)
       exit(1);
  }
 
- upgrade_box3 = load_bitmap("gfx\\upg_box3.bmp", temp_palette);
+ upgrade_box3 = load_bitmap("gfx//upg_box3.bmp", temp_palette);
 
  if (!upgrade_box3)
  {
@@ -650,8 +652,12 @@ void menu_display_options(void)
      {
       strcat(ostr, "Off");
      }
-      else
-       strcat(ostr, itoa(options.sound_volume, istr, 10));
+     else
+     {
+      //strcat(ostr, itoa(options.sound_volume, istr, 10));
+      sprintf(istr, "%d", options.sound_volume);
+      strcat(ostr, istr);
+     }
      break;
     case 3:
      strcpy(ostr, "Ambience Volume - ");
@@ -659,8 +665,12 @@ void menu_display_options(void)
      {
       strcat(ostr, "Off");
      }
-      else
-       strcat(ostr, itoa(options.ambience_volume, istr, 10));
+     else
+     {
+      // strcat(ostr, itoa(options.ambience_volume, istr, 10));
+      sprintf(istr, "%d", options.ambience_volume);
+      strcat(ostr, istr);
+     }
      break;
     case 4:
      strcpy(ostr, "Video Sync - ");
@@ -1868,13 +1878,19 @@ void menu_display_scores(void)
    if (hs_single[i].level == 17)
     strcpy(sstr, "<V>");
      else
-      strcpy(sstr, itoa(hs_single[i].level, istr, 10));
+     {
+      //strcpy(sstr, itoa(hs_single[i].level, istr, 10));
+      sprintf(istr, "%d", hs_single[i].level);
+      strcpy(sstr, istr);
+     }
    textprintf_right(menu_bmp, small_font, ox + 90, oys + oy * i, col, sstr);
 
    strcpy(sstr, ship_name_short(hs_single[i].ship));
    textprintf_right(menu_bmp, small_font, ox + 190, oys + oy * i, col, sstr);
 
-   strcpy(sstr, itoa(hs_single[i].score, istr, 10));
+   //strcpy(sstr, itoa(hs_single[i].score, istr, 10));
+   sprintf(istr, "%d", hs_single[i].score);
+   strcpy(sstr, istr);
    textprintf_right(menu_bmp, small_font, ox + 240, oys + oy * i, col, sstr);
 
   }
@@ -1905,13 +1921,19 @@ void menu_display_scores(void)
    if (hs_coop[i].level == 17)
     strcpy(sstr, "<V>");
      else
-      strcpy(sstr, itoa(hs_coop[i].level, istr, 10));
+     {
+      //strcpy(sstr, itoa(hs_coop[i].level, istr, 10));
+      sprintf(istr, "%d", hs_coop[i].level);
+      strcpy(sstr, istr);
+     }
    textprintf_right(menu_bmp, small_font, ox + 90, oys + oy * i, col, sstr);
 
    strcpy(sstr, ship_name_short(hs_coop[i].ship));
    textprintf_right(menu_bmp, small_font, ox + 190, oys + oy * i, col, sstr);
 
-   strcpy(sstr, itoa(hs_coop[i].score, istr, 10));
+   //strcpy(sstr, itoa(hs_coop[i].score, istr, 10));
+   sprintf(istr, "%d", hs_coop[i].score);
+   strcpy(sstr, istr);
    textprintf_right(menu_bmp, small_font, ox + 240, oys + oy * i, col, sstr);
 
   }
@@ -1941,14 +1963,14 @@ void draw_scrolling_grid(int min_x, int min_y, int max_x, int max_y, int colour)
    x1 = i * 50 + x_offset;
    if (x1 < min_x || x1 > max_x)
     continue;
-   vline(menu_bmp, x1, min_y, max_y, colour);
+   _allegro_vline(menu_bmp, x1, min_y, max_y, colour);
  }
  for (j = 0; j < 12; j ++)
  {
    y1 = j * 50 + y_offset;
    if (y1 < min_y || y1 > max_y)
     continue;
-   hline(menu_bmp, min_x, y1, max_x, colour);
+   _allegro_hline(menu_bmp, min_x, y1, max_x, colour);
  }
 
 }
@@ -2268,7 +2290,9 @@ void push_scores_coop(int insert, int play)
  hs_coop[i].level = arena.level;
  hs_coop[i].ship = actor[player[play].actor_controlled].ship;
  strcpy(hs_coop[i].name, "P");
- strcat(hs_coop[i].name, itoa(play + 1, istr, 10));
+ // strcat(hs_coop[i].name, itoa(play + 1, istr, 10));
+ sprintf(istr, "%d", play+1);
+ strcat(hs_coop[i].name, istr);
  strcat(hs_coop[i].name, "_");
 
 }
@@ -2451,7 +2475,7 @@ void quit_game(void)
 
       set_gfx_mode(GFX_TEXT, 0, 0, 0, 0);
 //      clrscr();
-      allegro_message("\n\rBye bye!                           ");
+//      allegro_message("\n\rBye bye!                           ");
 //      free(palet);
       exit(0);
 
@@ -2785,7 +2809,9 @@ set_config_file("lacew.cfg");
   strcpy(wstring, "Player1Keys");
   strcpy(miscstring, "Key");
   strcpy(itstring, "");
-  strcat(miscstring, itoa(i, itstring, 10));
+  //strcat(miscstring, itoa(i, itstring, 10));
+  sprintf(itstring, "%d", i);
+  strcat(miscstring, itstring);
   player[0].keys [i] = get_config_int(wstring, miscstring, KEY_X);
  }
 
@@ -2794,7 +2820,9 @@ set_config_file("lacew.cfg");
   strcpy(wstring, "Player2Keys");
   strcpy(miscstring, "Key");
   strcpy(itstring, "");
-  strcat(miscstring, itoa(i, itstring, 10));
+  //strcat(miscstring, itoa(i, itstring, 10));
+  sprintf(itstring, "%d", i);
+  strcat(miscstring, itstring);
   player[1].keys [i] = get_config_int(wstring, miscstring, KEY_SPACE);
  }
 
@@ -2803,36 +2831,52 @@ set_config_file("lacew.cfg");
   strcpy(wstring, "Highscores_single");
   strcpy(miscstring, "Score");
   strcpy(itstring, "");
-  strcat(miscstring, itoa(i, itstring, 10));
+  //strcat(miscstring, itoa(i, itstring, 10));
+  sprintf(itstring, "%d", i);
+  strcat(miscstring, itstring);
   hs_single[i].score = get_config_int(wstring, miscstring, 100);
   strcpy(miscstring, "Level");
   strcpy(itstring, "");
-  strcat(miscstring, itoa(i, itstring, 10));
+  //strcat(miscstring, itoa(i, itstring, 10));
+  sprintf(itstring, "%d", i);
+  strcat(miscstring, itstring);
   hs_single[i].level = get_config_int(wstring, miscstring, 1);
   strcpy(miscstring, "Ship");
   strcpy(itstring, "");
-  strcat(miscstring, itoa(i, itstring, 10));
+  //strcat(miscstring, itoa(i, itstring, 10));
+  sprintf(itstring, "%d", i);
+  strcat(miscstring, itstring);
   hs_single[i].ship = get_config_int(wstring, miscstring, SHIP_LACEWING);
   strcpy(miscstring, "Name");
   strcpy(itstring, "");
-  strcat(miscstring, itoa(i, itstring, 10));
+  //strcat(miscstring, itoa(i, itstring, 10));
+  sprintf(itstring, "%d", i);
+  strcat(miscstring, itstring);
   strcpy(hs_single[i].name, get_config_string(wstring, miscstring, "CaptainP"));
   strcpy(wstring, "Highscores_Coop");
   strcpy(miscstring, "Score");
   strcpy(itstring, "");
-  strcat(miscstring, itoa(i, itstring, 10));
+  //strcat(miscstring, itoa(i, itstring, 10));
+  sprintf(itstring, "%d", i);
+  strcat(miscstring, itstring);
   hs_coop[i].score = get_config_int(wstring, miscstring, 100);
   strcpy(miscstring, "Level");
   strcpy(itstring, "");
-  strcat(miscstring, itoa(i, itstring, 10));
+  //strcat(miscstring, itoa(i, itstring, 10));
+  sprintf(itstring, "%d", i);
+  strcat(miscstring, itstring);
   hs_coop[i].level = get_config_int(wstring, miscstring, 1);
   strcpy(miscstring, "Ship");
   strcpy(itstring, "");
-  strcat(miscstring, itoa(i, itstring, 10));
+  //strcat(miscstring, itoa(i, itstring, 10));
+  sprintf(itstring, "%d", i);
+  strcat(miscstring, itstring);
   hs_coop[i].ship = get_config_int(wstring, miscstring, SHIP_LACEWING);
   strcpy(miscstring, "Name");
   strcpy(itstring, "");
-  strcat(miscstring, itoa(i, itstring, 10));
+  //strcat(miscstring, itoa(i, itstring, 10));
+  sprintf(itstring, "%d", i);
+  strcat(miscstring, itstring);
   strcpy(hs_coop[i].name, get_config_string(wstring, miscstring, "CaptainP"));
  }
 
@@ -2856,7 +2900,9 @@ void save_config(void)
   strcpy(wstring, "Player1Keys");
   strcpy(miscstring, "Key");
   strcpy(itstring, "");
-  strcat(miscstring, itoa(i, itstring, 10));
+  //strcat(miscstring, itoa(i, itstring, 10));
+  sprintf(itstring, "%d", i);
+  strcat(miscstring, itstring);
   set_config_int(wstring, miscstring, player[0].keys [i]);
  }
 
@@ -2865,7 +2911,9 @@ void save_config(void)
   strcpy(wstring, "Player2Keys");
   strcpy(miscstring, "Key");
   strcpy(itstring, "");
-  strcat(miscstring, itoa(i, itstring, 10));
+  //strcat(miscstring, itoa(i, itstring, 10));
+  sprintf(itstring, "%d", i);
+  strcat(miscstring, itstring);
   set_config_int(wstring, miscstring, player[1].keys [i]);
  }
 
@@ -2875,37 +2923,53 @@ void save_config(void)
   strcpy(wstring, "Highscores_single");
   strcpy(miscstring, "Score");
   strcpy(itstring, "");
-  strcat(miscstring, itoa(i, itstring, 10));
+  //strcat(miscstring, itoa(i, itstring, 10));
+  sprintf(itstring, "%d", i);
+  strcat(miscstring, itstring);
   set_config_int(wstring, miscstring, hs_single[i].score);
   strcpy(miscstring, "Level");
   strcpy(itstring, "");
-  strcat(miscstring, itoa(i, itstring, 10));
+  //strcat(miscstring, itoa(i, itstring, 10));
+  sprintf(itstring, "%d", i);
+  strcat(miscstring, itstring);
   set_config_int(wstring, miscstring, hs_single[i].level);
   strcpy(miscstring, "Ship");
   strcpy(itstring, "");
-  strcat(miscstring, itoa(i, itstring, 10));
+  //strcat(miscstring, itoa(i, itstring, 10));
+  sprintf(itstring, "%d", i);
+  strcat(miscstring, itstring);
   set_config_int(wstring, miscstring, hs_single[i].ship);
   strcpy(miscstring, "Name");
   strcpy(itstring, "");
-  strcat(miscstring, itoa(i, itstring, 10));
+  //strcat(miscstring, itoa(i, itstring, 10));
+  sprintf(itstring, "%d", i);
+  strcat(miscstring, itstring);
   set_config_string(wstring, miscstring, hs_single[i].name);
   
   strcpy(wstring, "Highscores_Coop");
   strcpy(miscstring, "Score");
   strcpy(itstring, "");
-  strcat(miscstring, itoa(i, itstring, 10));
+  //strcat(miscstring, itoa(i, itstring, 10));
+  sprintf(itstring, "%d", i);
+  strcat(miscstring, itstring);
   set_config_int(wstring, miscstring, hs_coop[i].score);
   strcpy(miscstring, "Level");
   strcpy(itstring, "");
-  strcat(miscstring, itoa(i, itstring, 10));
+  //strcat(miscstring, itoa(i, itstring, 10));
+  sprintf(itstring, "%d", i);
+  strcat(miscstring, itstring);
   set_config_int(wstring, miscstring, hs_coop[i].level);
   strcpy(miscstring, "Ship");
   strcpy(itstring, "");
-  strcat(miscstring, itoa(i, itstring, 10));
+  //strcat(miscstring, itoa(i, itstring, 10));
+  sprintf(itstring, "%d", i);
+  strcat(miscstring, itstring);
   set_config_int(wstring, miscstring, hs_coop[i].ship);
   strcpy(miscstring, "Name");
   strcpy(itstring, "");
-  strcat(miscstring, itoa(i, itstring, 10));
+  //strcat(miscstring, itoa(i, itstring, 10));
+  sprintf(itstring, "%d", i);
+  strcat(miscstring, itstring);
   set_config_string(wstring, miscstring, hs_coop[i].name);
  }
 

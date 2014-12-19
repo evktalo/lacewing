@@ -31,6 +31,8 @@ This file contains:
 
 */
 
+#define ALLEGRO_NO_CLEAR_BITMAP_ALIAS
+#define ALLEGRO_NO_VHLINE_ALIAS
 #include "allegro.h"
 
 #include <math.h>
@@ -442,14 +444,14 @@ void draw_an_actor(BITMAP *bmp, int dr, int x, int y, int play)
   x1 = x + cos(angle_to_radians(counter * 8)) * gd;
   y1 = y + sin(angle_to_radians(counter * 8)) * gd;
   putpixel(bmp, x1, y1, COLOUR_GREY2 + grand(5));
-  x1 = x + cos(angle_to_radians(counter * 8) + PI / 2) * gd;
-  y1 = y + sin(angle_to_radians(counter * 8) + PI / 2) * gd;
+  x1 = x + cos(angle_to_radians(counter * 8) + M_PI / 2) * gd;
+  y1 = y + sin(angle_to_radians(counter * 8) + M_PI / 2) * gd;
   putpixel(bmp, x1, y1, COLOUR_GREY2 + grand(5));
-  x1 = x + cos(angle_to_radians(counter * 8) + PI) * gd;
-  y1 = y + sin(angle_to_radians(counter * 8) + PI) * gd;
+  x1 = x + cos(angle_to_radians(counter * 8) + M_PI) * gd;
+  y1 = y + sin(angle_to_radians(counter * 8) + M_PI) * gd;
   putpixel(bmp, x1, y1, COLOUR_GREY2 + grand(5));
-  x1 = x + cos(angle_to_radians(counter * 8) - PI / 2) * gd;
-  y1 = y + sin(angle_to_radians(counter * 8) - PI / 2) * gd;
+  x1 = x + cos(angle_to_radians(counter * 8) - M_PI / 2) * gd;
+  y1 = y + sin(angle_to_radians(counter * 8) - M_PI / 2) * gd;
   putpixel(bmp, x1, y1, COLOUR_GREY2 + grand(5));
  }*/
 
@@ -649,10 +651,10 @@ void draw_triangle_ship(BITMAP *bmp, int dr, int size, int pointiness, int x, in
 
  x1 = x + cos(radangle) * (size + pointiness);
  y1 = y + sin(radangle) * (size + pointiness);
- x2 = x + cos(radangle + (PI * 2) / 3) * size;
- y2 = y + sin(radangle + (PI * 2) / 3) * size;
- x3 = x + cos(radangle - (PI * 2) / 3) * size;
- y3 = y + sin(radangle - (PI * 2) / 3) * size;
+ x2 = x + cos(radangle + (M_PI * 2) / 3) * size;
+ y2 = y + sin(radangle + (M_PI * 2) / 3) * size;
+ x3 = x + cos(radangle - (M_PI * 2) / 3) * size;
+ y3 = y + sin(radangle - (M_PI * 2) / 3) * size;
 
  triangle(bmp, x1, y1, x2, y2, x3, y3, colour2);
  line(bmp, x1, y1, x2, y2, colour1);
@@ -815,8 +817,8 @@ void draw_status2(BITMAP *bmp, int max_x, int max_y, int play)
     {
      x = (actor[i].x * 75) / arena.max_x + max_x - 80;
      y = (actor[i].y * 70) / arena.max_y + max_y - 105;
-     hline(bmp, max_x - 80, y, max_x - 5, COLOUR_GREY3);
-     vline(bmp, x, max_y - 105, max_y - 35, COLOUR_GREY3);
+     _allegro_hline(bmp, max_x - 80, y, max_x - 5, COLOUR_GREY3);
+     _allegro_vline(bmp, x, max_y - 105, max_y - 35, COLOUR_GREY3);
     }
    }
    i = player[0].actor_controlled;
@@ -824,8 +826,8 @@ void draw_status2(BITMAP *bmp, int max_x, int max_y, int play)
    {
     x = (actor[i].x * 75) / arena.max_x + max_x - 80;
     y = (actor[i].y * 70) / arena.max_y + max_y - 105;
-    hline(bmp, max_x - 80, y, max_x - 5, COLOUR_WHITE);
-    vline(bmp, x, max_y - 105, max_y - 35, COLOUR_WHITE);
+    _allegro_hline(bmp, max_x - 80, y, max_x - 5, COLOUR_WHITE);
+    _allegro_vline(bmp, x, max_y - 105, max_y - 35, COLOUR_WHITE);
    }
   }
    else
@@ -837,8 +839,8 @@ void draw_status2(BITMAP *bmp, int max_x, int max_y, int play)
      {
       x = (actor[i].x * 75) / arena.max_x + max_x - 80;
       y = (actor[i].y * 70) / arena.max_y + max_y - 105;
-      hline(bmp, max_x - 80, y, max_x - 5, COLOUR_GREY3);
-      vline(bmp, x, max_y - 105, max_y - 35, COLOUR_GREY3);
+      _allegro_hline(bmp, max_x - 80, y, max_x - 5, COLOUR_GREY3);
+      _allegro_vline(bmp, x, max_y - 105, max_y - 35, COLOUR_GREY3);
      }
     }
     i = player[1].actor_controlled;
@@ -846,8 +848,8 @@ void draw_status2(BITMAP *bmp, int max_x, int max_y, int play)
     {
      x = (actor[i].x * 75) / arena.max_x + max_x - 80;
      y = (actor[i].y * 70) / arena.max_y + max_y - 105;
-     hline(bmp, max_x - 80, y, max_x - 5, COLOUR_WHITE);
-     vline(bmp, x, max_y - 105, max_y - 35, COLOUR_WHITE);
+     _allegro_hline(bmp, max_x - 80, y, max_x - 5, COLOUR_WHITE);
+     _allegro_vline(bmp, x, max_y - 105, max_y - 35, COLOUR_WHITE);
     }
    }
 
@@ -1029,13 +1031,15 @@ void draw_ship_status(BITMAP *bmp, int x, int y, int a, int style)
    armour_colour2 = COLOUR_RED7;
   }
 
-  itoa(actor[a].armour / 10, numbers, 10);
+  //itoa(actor[a].armour / 10, numbers, 10);
+  sprintf(numbers, "%d", actor[a].armour / 10);
   textprintf(bmp, font, x + 48, y + 15, armour_colour, numbers);
   textprintf(bmp, font2, x + 48, y + 15, armour_colour2, numbers);
 
   if (actor[a].upgraded_system [UPG_SHIELD] > 0)
   {
-   itoa(actor[a].shield / 10, numbers, 10);
+   //itoa(actor[a].shield / 10, numbers, 10);
+   sprintf(numbers, "%d", actor[a].shield / 10);
    textprintf(bmp, font, x + 55, y - 20, COLOUR_BLUE3 + grand(4), numbers);
    textprintf(bmp, font2, x + 55, y - 20, COLOUR_BLUE6 + grand(3), numbers);
   }
@@ -1130,7 +1134,8 @@ void draw_ship_status(BITMAP *bmp, int x, int y, int a, int style)
      armour_colour = COLOUR_YELLOW1 + actor[a].repairing / 25;
   armour_colour2 = COLOUR_ORANGE1 + (actor[a].repairing / 4) % 8;
 
-  itoa(actor[a].repairing / 2, numbers, 10);
+  //itoa(actor[a].repairing / 2, numbers, 10);
+  sprintf(numbers, "%d", actor[a].repairing / 2);
   textprintf(bmp, font, x + 48, y + 45, armour_colour, numbers);
   textprintf(bmp, font2, x + 48, y + 45, armour_colour2, numbers);
 
@@ -1326,16 +1331,16 @@ void draw_a_bullet(BITMAP *bmp, int dr, int x, int y, int x2, int y2, int max_x,
    cs = angle_to_radians(bullet[dr].angle);
    xa = (x) + ((float) cos(cs) * 3);
    ya = (y) + ((float) sin(cs) * 3);
-   xb = (x) + ((float) cos(cs + (PI * 2) / 3) * 4);
-   yb = (y) + ((float) sin(cs + (PI * 2) / 3) * 4);
-   xc = (x) + ((float) cos(cs - (PI * 2) / 3) * 4);
-   yc = (y) + ((float) sin(cs - (PI * 2) / 3) * 4);
-/*   xa = (x) + ((float) cos(radangle + PI) * 3);
-   ya = (y) + ((float) sin(radangle + PI) * 3);
-   xb = (x) + ((float) cos(radangle + PI + (PI * 2) / 3) * 4);
-   yb = (y) + ((float) sin(radangle + PI + (PI * 2) / 3) * 4);
-   xc = (x) + ((float) cos(radangle + PI - (PI * 2) / 3) * 4);
-   yc = (y) + ((float) sin(radangle + PI - (PI * 2) / 3) * 4);*/
+   xb = (x) + ((float) cos(cs + (M_PI * 2) / 3) * 4);
+   yb = (y) + ((float) sin(cs + (M_PI * 2) / 3) * 4);
+   xc = (x) + ((float) cos(cs - (M_PI * 2) / 3) * 4);
+   yc = (y) + ((float) sin(cs - (M_PI * 2) / 3) * 4);
+/*   xa = (x) + ((float) cos(radangle + M_PI) * 3);
+   ya = (y) + ((float) sin(radangle + M_PI) * 3);
+   xb = (x) + ((float) cos(radangle + M_PI + (M_PI * 2) / 3) * 4);
+   yb = (y) + ((float) sin(radangle + M_PI + (M_PI * 2) / 3) * 4);
+   xc = (x) + ((float) cos(radangle + M_PI - (M_PI * 2) / 3) * 4);
+   yc = (y) + ((float) sin(radangle + M_PI - (M_PI * 2) / 3) * 4);*/
    triangle(bmp, xa, ya, xb, yb, xc, yc, COLOUR_GREY5);
    line(bmp, xa, ya, xb, yb, COLOUR_BLUE7);
    line(bmp, xa, ya, xc, yc, COLOUR_BLUE7);
@@ -1584,12 +1589,12 @@ void draw_sidekicks(BITMAP *bmp, int max_x, int max_y, int play, int a)
 
 //  circle(bmp, x + max_x / 2, y + max_y / 2, 3, COLOUR_GREEN7);
    radangle = angle_to_radians(actor[a].sidekick_angle [i]);
-   x1 = (x) + ((float) cos(radangle + PI) * 3);
-   y1 = (y) + ((float) sin(radangle + PI) * 3);
-   x2 = (x) + ((float) cos(radangle + PI + (PI * 2) / 3) * 4);
-   y2 = (y) + ((float) sin(radangle + PI + (PI * 2) / 3) * 4);
-   x3 = (x) + ((float) cos(radangle + PI - (PI * 2) / 3) * 4);
-   y3 = (y) + ((float) sin(radangle + PI - (PI * 2) / 3) * 4);
+   x1 = (x) + ((float) cos(radangle + M_PI) * 3);
+   y1 = (y) + ((float) sin(radangle + M_PI) * 3);
+   x2 = (x) + ((float) cos(radangle + M_PI + (M_PI * 2) / 3) * 4);
+   y2 = (y) + ((float) sin(radangle + M_PI + (M_PI * 2) / 3) * 4);
+   x3 = (x) + ((float) cos(radangle + M_PI - (M_PI * 2) / 3) * 4);
+   y3 = (y) + ((float) sin(radangle + M_PI - (M_PI * 2) / 3) * 4);
    triangle(bmp, x1, y1, x2, y2, x3, y3, COLOUR_GREY5);
    line(bmp, x1, y1, x2, y2, COLOUR_GREY4);
    line(bmp, x1, y1, x3, y3, COLOUR_GREY4);
@@ -1663,40 +1668,40 @@ void draw_lock(BITMAP *bmp, int dr, int x, int y, int rad)
  int y1 = y + sin(fangle) * (rad + 1);
  int y2 = y + sin(fangle) * (rad + 7);
  pline(bmp, x1, y1, x2, y2, lock_colour);
- x1 = x + cos(fangle + PI / 2) * (rad + 1);
- x2 = x + cos(fangle + PI / 2) * (rad + 7);
- y1 = y + sin(fangle + PI / 2) * (rad + 1);
- y2 = y + sin(fangle + PI / 2) * (rad + 7);
+ x1 = x + cos(fangle + M_PI / 2) * (rad + 1);
+ x2 = x + cos(fangle + M_PI / 2) * (rad + 7);
+ y1 = y + sin(fangle + M_PI / 2) * (rad + 1);
+ y2 = y + sin(fangle + M_PI / 2) * (rad + 7);
  pline(bmp, x1, y1, x2, y2, lock_colour);
- x1 = x + cos(fangle + PI) * (rad + 1);
- x2 = x + cos(fangle + PI) * (rad + 7);
- y1 = y + sin(fangle + PI) * (rad + 1);
- y2 = y + sin(fangle + PI) * (rad + 7);
+ x1 = x + cos(fangle + M_PI) * (rad + 1);
+ x2 = x + cos(fangle + M_PI) * (rad + 7);
+ y1 = y + sin(fangle + M_PI) * (rad + 1);
+ y2 = y + sin(fangle + M_PI) * (rad + 7);
  pline(bmp, x1, y1, x2, y2, lock_colour);
- x1 = x + cos(fangle - PI / 2) * (rad + 1);
- x2 = x + cos(fangle - PI / 2) * (rad + 7);
- y1 = y + sin(fangle - PI / 2) * (rad + 1);
- y2 = y + sin(fangle - PI / 2) * (rad + 7);
+ x1 = x + cos(fangle - M_PI / 2) * (rad + 1);
+ x2 = x + cos(fangle - M_PI / 2) * (rad + 7);
+ y1 = y + sin(fangle - M_PI / 2) * (rad + 1);
+ y2 = y + sin(fangle - M_PI / 2) * (rad + 7);
  pline(bmp, x1, y1, x2, y2, lock_colour);
- x1 = x + cos(fangle + PI / 4) * (rad + 1);
- x2 = x + cos(fangle + PI / 4) * (rad + 4);
- y1 = y + sin(fangle + PI / 4) * (rad + 1);
- y2 = y + sin(fangle + PI / 4) * (rad + 4);
+ x1 = x + cos(fangle + M_PI / 4) * (rad + 1);
+ x2 = x + cos(fangle + M_PI / 4) * (rad + 4);
+ y1 = y + sin(fangle + M_PI / 4) * (rad + 1);
+ y2 = y + sin(fangle + M_PI / 4) * (rad + 4);
  pline(bmp, x1, y1, x2, y2, lock_colour);
- x1 = x + cos(fangle - PI / 4) * (rad + 1);
- x2 = x + cos(fangle - PI / 4) * (rad + 4);
- y1 = y + sin(fangle - PI / 4) * (rad + 1);
- y2 = y + sin(fangle - PI / 4) * (rad + 4);
+ x1 = x + cos(fangle - M_PI / 4) * (rad + 1);
+ x2 = x + cos(fangle - M_PI / 4) * (rad + 4);
+ y1 = y + sin(fangle - M_PI / 4) * (rad + 1);
+ y2 = y + sin(fangle - M_PI / 4) * (rad + 4);
  pline(bmp, x1, y1, x2, y2, lock_colour);
- x1 = x + cos(fangle + PI - PI / 4) * (rad + 1);
- x2 = x + cos(fangle + PI - PI / 4) * (rad + 4);
- y1 = y + sin(fangle + PI - PI / 4) * (rad + 1);
- y2 = y + sin(fangle + PI - PI / 4) * (rad + 4);
+ x1 = x + cos(fangle + M_PI - M_PI / 4) * (rad + 1);
+ x2 = x + cos(fangle + M_PI - M_PI / 4) * (rad + 4);
+ y1 = y + sin(fangle + M_PI - M_PI / 4) * (rad + 1);
+ y2 = y + sin(fangle + M_PI - M_PI / 4) * (rad + 4);
  pline(bmp, x1, y1, x2, y2, lock_colour);
- x1 = x + cos(fangle + PI + PI / 4) * (rad + 1);
- x2 = x + cos(fangle + PI + PI / 4) * (rad + 4);
- y1 = y + sin(fangle + PI + PI / 4) * (rad + 1);
- y2 = y + sin(fangle + PI + PI / 4) * (rad + 4);
+ x1 = x + cos(fangle + M_PI + M_PI / 4) * (rad + 1);
+ x2 = x + cos(fangle + M_PI + M_PI / 4) * (rad + 4);
+ y1 = y + sin(fangle + M_PI + M_PI / 4) * (rad + 1);
+ y2 = y + sin(fangle + M_PI + M_PI / 4) * (rad + 4);
  pline(bmp, x1, y1, x2, y2, lock_colour);
 }
 
@@ -1706,25 +1711,25 @@ void draw_turret_lock(BITMAP *bmp, int dr, int x, int y, int rad)
 // float fangle = angle_to_radians(ANGLE_FULL - (( - counter) * 8) % ANGLE_FULL);
  int col = COLOUR_YELLOW8 - (counter / 2) % 4;
  float fangle = angle_to_radians((counter * 6) % ANGLE_FULL);
- int x1 = x + cos(fangle + PI / 8) * (rad + 1);
- int y1 = y + sin(fangle + PI / 8) * (rad + 1);
- int x2 = x + cos(fangle - PI / 8) * (rad + 1);
- int y2 = y + sin(fangle - PI / 8) * (rad + 1);
+ int x1 = x + cos(fangle + M_PI / 8) * (rad + 1);
+ int y1 = y + sin(fangle + M_PI / 8) * (rad + 1);
+ int x2 = x + cos(fangle - M_PI / 8) * (rad + 1);
+ int y2 = y + sin(fangle - M_PI / 8) * (rad + 1);
  pline(bmp, x1, y1, x2, y2, col);
- x1 = x + cos(fangle + PI / 2 + PI / 8) * (rad + 1);
- y1 = y + sin(fangle + PI / 2 + PI / 8) * (rad + 1);
- x2 = x + cos(fangle + PI / 2 - PI / 8) * (rad + 1);
- y2 = y + sin(fangle + PI / 2 - PI / 8) * (rad + 1);
+ x1 = x + cos(fangle + M_PI / 2 + M_PI / 8) * (rad + 1);
+ y1 = y + sin(fangle + M_PI / 2 + M_PI / 8) * (rad + 1);
+ x2 = x + cos(fangle + M_PI / 2 - M_PI / 8) * (rad + 1);
+ y2 = y + sin(fangle + M_PI / 2 - M_PI / 8) * (rad + 1);
  pline(bmp, x1, y1, x2, y2, col);
- x1 = x + cos(fangle + PI + PI / 8) * (rad + 1);
- y1 = y + sin(fangle + PI + PI / 8) * (rad + 1);
- x2 = x + cos(fangle + PI - PI / 8) * (rad + 1);
- y2 = y + sin(fangle + PI - PI / 8) * (rad + 1);
+ x1 = x + cos(fangle + M_PI + M_PI / 8) * (rad + 1);
+ y1 = y + sin(fangle + M_PI + M_PI / 8) * (rad + 1);
+ x2 = x + cos(fangle + M_PI - M_PI / 8) * (rad + 1);
+ y2 = y + sin(fangle + M_PI - M_PI / 8) * (rad + 1);
  pline(bmp, x1, y1, x2, y2, col);
- x1 = x + cos(fangle - PI / 2 + PI / 8) * (rad + 1);
- y1 = y + sin(fangle - PI / 2 + PI / 8) * (rad + 1);
- x2 = x + cos(fangle - PI / 2 - PI / 8) * (rad + 1);
- y2 = y + sin(fangle - PI / 2 - PI / 8) * (rad + 1);
+ x1 = x + cos(fangle - M_PI / 2 + M_PI / 8) * (rad + 1);
+ y1 = y + sin(fangle - M_PI / 2 + M_PI / 8) * (rad + 1);
+ x2 = x + cos(fangle - M_PI / 2 - M_PI / 8) * (rad + 1);
+ y2 = y + sin(fangle - M_PI / 2 - M_PI / 8) * (rad + 1);
  pline(bmp, x1, y1, x2, y2, col);
 
 }
@@ -2096,10 +2101,10 @@ void draw_an_enemy(BITMAP *bmp, int dr, int x, int y)
    radangle = angle_to_radians(enemy[dr].angle);
    x1 = (x) + cos(radangle) * (13);
    y1 = (y) + sin(radangle) * (13);
-   x2 = (x) + cos(radangle + (PI * 2) / 3) * 11;
-   y2 = (y) + sin(radangle + (PI * 2) / 3) * 11;
-   x3 = (x) + cos(radangle - (PI * 2) / 3) * 11;
-   y3 = (y) + sin(radangle - (PI * 2) / 3) * 11;
+   x2 = (x) + cos(radangle + (M_PI * 2) / 3) * 11;
+   y2 = (y) + sin(radangle + (M_PI * 2) / 3) * 11;
+   x3 = (x) + cos(radangle - (M_PI * 2) / 3) * 11;
+   y3 = (y) + sin(radangle - (M_PI * 2) / 3) * 11;
    triangle(bmp, x1, y1, x2, y2, x3, y3, col3);
    line(bmp, x1, y1, x2, y2, col4);
    line(bmp, x1, y1, x3, y3, col4);
@@ -2111,12 +2116,12 @@ void draw_an_enemy(BITMAP *bmp, int dr, int x, int y)
    col3 = enemy[dr].colours [1];
    col4 = enemy[dr].colours [0] - 2;
    radangle = angle_to_radians(enemy[dr].angle);
-   x1 = (x) + cos(radangle + PI) * (11);
-   y1 = (y) + sin(radangle + PI) * (11);
-   x2 = (x) + cos(radangle + PI + (PI * 2) / 3) * 14;
-   y2 = (y) + sin(radangle + PI + (PI * 2) / 3) * 14;
-   x3 = (x) + cos(radangle + PI - (PI * 2) / 3) * 14;
-   y3 = (y) + sin(radangle + PI - (PI * 2) / 3) * 14;
+   x1 = (x) + cos(radangle + M_PI) * (11);
+   y1 = (y) + sin(radangle + M_PI) * (11);
+   x2 = (x) + cos(radangle + M_PI + (M_PI * 2) / 3) * 14;
+   y2 = (y) + sin(radangle + M_PI + (M_PI * 2) / 3) * 14;
+   x3 = (x) + cos(radangle + M_PI - (M_PI * 2) / 3) * 14;
+   y3 = (y) + sin(radangle + M_PI - (M_PI * 2) / 3) * 14;
    triangle(bmp, x1, y1, x2, y2, x3, y3, col3);
    line(bmp, x1, y1, x2, y2, col4);
    line(bmp, x1, y1, x3, y3, col4);
@@ -2128,12 +2133,12 @@ void draw_an_enemy(BITMAP *bmp, int dr, int x, int y)
    col3 = enemy[dr].colours [1];
    col4 = enemy[dr].colours [0] - 2;
    radangle = angle_to_radians(enemy[dr].angle);
-   x1 = (x) + cos(radangle + PI) * (10);
-   y1 = (y) + sin(radangle + PI) * (10);
-   x2 = (x) + cos(radangle + PI + (PI * 2) / 3) * 16;
-   y2 = (y) + sin(radangle + PI + (PI * 2) / 3) * 16;
-   x3 = (x) + cos(radangle + PI - (PI * 2) / 3) * 16;
-   y3 = (y) + sin(radangle + PI - (PI * 2) / 3) * 16;
+   x1 = (x) + cos(radangle + M_PI) * (10);
+   y1 = (y) + sin(radangle + M_PI) * (10);
+   x2 = (x) + cos(radangle + M_PI + (M_PI * 2) / 3) * 16;
+   y2 = (y) + sin(radangle + M_PI + (M_PI * 2) / 3) * 16;
+   x3 = (x) + cos(radangle + M_PI - (M_PI * 2) / 3) * 16;
+   y3 = (y) + sin(radangle + M_PI - (M_PI * 2) / 3) * 16;
    triangle(bmp, x1, y1, x2, y2, x3, y3, col3);
    line(bmp, x1, y1, x2, y2, col4);
    line(bmp, x1, y1, x3, y3, col4);
@@ -2150,12 +2155,12 @@ void draw_an_enemy(BITMAP *bmp, int dr, int x, int y)
    col3 = COLOUR_RED3;//enemy[dr].colours [1];
    col4 = COLOUR_RED5;//enemy[dr].colours [0] - 2;
    radangle = angle_to_radians(enemy[dr].angle);
-   x1 = (x) + cos(radangle + PI) * (12);
-   y1 = (y) + sin(radangle + PI) * (12);
-   x2 = (x) + cos(radangle + PI + (PI * 2) / 3) * 17;
-   y2 = (y) + sin(radangle + PI + (PI * 2) / 3) * 17;
-   x3 = (x) + cos(radangle + PI - (PI * 2) / 3) * 17;
-   y3 = (y) + sin(radangle + PI - (PI * 2) / 3) * 17;
+   x1 = (x) + cos(radangle + M_PI) * (12);
+   y1 = (y) + sin(radangle + M_PI) * (12);
+   x2 = (x) + cos(radangle + M_PI + (M_PI * 2) / 3) * 17;
+   y2 = (y) + sin(radangle + M_PI + (M_PI * 2) / 3) * 17;
+   x3 = (x) + cos(radangle + M_PI - (M_PI * 2) / 3) * 17;
+   y3 = (y) + sin(radangle + M_PI - (M_PI * 2) / 3) * 17;
    triangle(bmp, x1, y1, x2, y2, x3, y3, col3);
    line(bmp, x1, y1, x2, y2, col4);
    line(bmp, x1, y1, x3, y3, col4);
@@ -2171,22 +2176,22 @@ void draw_an_enemy(BITMAP *bmp, int dr, int x, int y)
    col3 = COLOUR_ORANGE2;
    col4 = COLOUR_ORANGE5;
    radangle = angle_to_radians(enemy[dr].angle);
-   x1 = (x) + cos(radangle + PI) * (12);
-   y1 = (y) + sin(radangle + PI) * (12);
-   x2 = (x) + cos(radangle + PI + (PI * 2) / 3) * 21;
-   y2 = (y) + sin(radangle + PI + (PI * 2) / 3) * 21;
-   x3 = (x) + cos(radangle + PI - (PI * 2) / 3) * 21;
-   y3 = (y) + sin(radangle + PI - (PI * 2) / 3) * 21;
+   x1 = (x) + cos(radangle + M_PI) * (12);
+   y1 = (y) + sin(radangle + M_PI) * (12);
+   x2 = (x) + cos(radangle + M_PI + (M_PI * 2) / 3) * 21;
+   y2 = (y) + sin(radangle + M_PI + (M_PI * 2) / 3) * 21;
+   x3 = (x) + cos(radangle + M_PI - (M_PI * 2) / 3) * 21;
+   y3 = (y) + sin(radangle + M_PI - (M_PI * 2) / 3) * 21;
    triangle(bmp, x1, y1, x2, y2, x3, y3, col3);
    line(bmp, x1, y1, x2, y2, col4);
    line(bmp, x1, y1, x3, y3, col4);
    line(bmp, x2, y2, x3, y3, col4);
-   x1 = (x) + cos(radangle + PI + (PI * 2) / 3) * 16;
-   y1 = (y) + sin(radangle + PI + (PI * 2) / 3) * 16;
+   x1 = (x) + cos(radangle + M_PI + (M_PI * 2) / 3) * 16;
+   y1 = (y) + sin(radangle + M_PI + (M_PI * 2) / 3) * 16;
    circlefill(bmp, (x1), y1, 3, COLOUR_RED1);
    circle(bmp, (x1), y1, 3, COLOUR_RED6);
-   x1 = (x) + cos(radangle + PI - (PI * 2) / 3) * 16;
-   y1 = (y) + sin(radangle + PI - (PI * 2) / 3) * 16;
+   x1 = (x) + cos(radangle + M_PI - (M_PI * 2) / 3) * 16;
+   y1 = (y) + sin(radangle + M_PI - (M_PI * 2) / 3) * 16;
    circlefill(bmp, (x1), y1, 3, COLOUR_RED1);
    circle(bmp, (x1), y1, 3, COLOUR_RED6);
    circlefill(bmp, (x), y, 8, col1);
@@ -2513,25 +2518,25 @@ void draw_crawler_legs(BITMAP *bmp, int x, int y, int e, int col)
    int length = 11;
    float dir = 1;
 
-   float angle = (float) ((PI * (counter % 8)) / 8) / 8;
+   float angle = (float) ((M_PI * (counter % 8)) / 8) / 8;
    float angle2 = angle;
 
    if (enemy[e].attribute [ATTRIB_CRAWLER_AXIS] == 1)
    {
-    angle2 = PI - angle;
-//    angle = angle2 - PI / 2 + PI + PI / 2;
-    angle = angle2 + PI;
+    angle2 = M_PI - angle;
+//    angle = angle2 - M_PI / 2 + M_PI + M_PI / 2;
+    angle = angle2 + M_PI;
    }
     else
     {
-     angle += PI;
+     angle += M_PI;
      if (enemy[e].attribute [ATTRIB_CRAWLER_DIRECTION_X] == -1)
      {
-      angle = -angle; //PI - angle;
+      angle = -angle; //M_PI - angle;
       dir = -1;
      }
        else
-        angle -= PI;
+        angle -= M_PI;
      angle2 = angle;
     }
 
@@ -2561,10 +2566,10 @@ void draw_crawler_legs(BITMAP *bmp, int x, int y, int e, int col)
      length = 11;
     if (i == 5)
      length = 9;
-    x2 = x + cos(angle + (float) (i * PI * dir) / 8) * length;
-    y2 = y + sin(angle + (float) (i * PI * dir) / 8) * length;
-    x3 = x - cos(PI - (angle2 + (float) (i * PI * dir) / 8)) * length;
-    y3 = y - sin(PI - (angle2 + (float) (i * PI * dir) / 8)) * length;
+    x2 = x + cos(angle + (float) (i * M_PI * dir) / 8) * length;
+    y2 = y + sin(angle + (float) (i * M_PI * dir) / 8) * length;
+    x3 = x - cos(M_PI - (angle2 + (float) (i * M_PI * dir) / 8)) * length;
+    y3 = y - sin(M_PI - (angle2 + (float) (i * M_PI * dir) / 8)) * length;
     pline(bmp, x, y, x2, y2, col);
     pline(bmp, x, y, x3, y3, col);
    }
@@ -2797,12 +2802,12 @@ void draw_a_pickup(BITMAP *bmp, int dr, int x, int y)
 //  circlefill(bmp, x - x1, y - y1, 1, COLOUR_YELLOW8 - (pickup[dr].counter / 8) % 3);
   putpixel(bmp, x + x1, y + y1, col - (pickup[dr].counter / 8) % 3);
   putpixel(bmp, x - x1, y - y1, col - (pickup[dr].counter / 8) % 3);
-  x1 = cos(angle_to_radians(pickup[dr].counter * 9) - PI / 4) * 7;
-  y1 = sin(angle_to_radians(pickup[dr].counter * 9) - PI / 4) * 7;
+  x1 = cos(angle_to_radians(pickup[dr].counter * 9) - M_PI / 4) * 7;
+  y1 = sin(angle_to_radians(pickup[dr].counter * 9) - M_PI / 4) * 7;
   putpixel(bmp, x + x1, y + y1, col - 4 - (pickup[dr].counter / 8) % 3);
   putpixel(bmp, x - x1, y - y1, col - 4 - (pickup[dr].counter / 8) % 3);
-  x1 = cos(angle_to_radians(pickup[dr].counter * 9) - PI / 8) * 7;
-  y1 = sin(angle_to_radians(pickup[dr].counter * 9) - PI / 8) * 7;
+  x1 = cos(angle_to_radians(pickup[dr].counter * 9) - M_PI / 8) * 7;
+  y1 = sin(angle_to_radians(pickup[dr].counter * 9) - M_PI / 8) * 7;
   putpixel(bmp, x + x1, y + y1, col - 2 - (pickup[dr].counter / 8) % 3);
   putpixel(bmp, x - x1, y - y1, col - 2 - (pickup[dr].counter / 8) % 3);
    break;
@@ -2812,12 +2817,12 @@ void draw_a_pickup(BITMAP *bmp, int dr, int x, int y)
   y1 = sin(angle_to_radians(pickup[dr].counter * 9)) * 8;
   putpixel(bmp, x + x1, y + y1, col - (pickup[dr].counter / 8) % 3);
   putpixel(bmp, x - x1, y - y1, col - (pickup[dr].counter / 8) % 3);
-  x1 = cos(angle_to_radians(pickup[dr].counter * 9) - PI / 4) * 8;
-  y1 = sin(angle_to_radians(pickup[dr].counter * 9) - PI / 4) * 8;
+  x1 = cos(angle_to_radians(pickup[dr].counter * 9) - M_PI / 4) * 8;
+  y1 = sin(angle_to_radians(pickup[dr].counter * 9) - M_PI / 4) * 8;
   putpixel(bmp, x + x1, y + y1, col - 4 - (pickup[dr].counter / 8) % 3);
   putpixel(bmp, x - x1, y - y1, col - 4 - (pickup[dr].counter / 8) % 3);
-  x1 = cos(angle_to_radians(pickup[dr].counter * 9) - PI / 8) * 8;
-  y1 = sin(angle_to_radians(pickup[dr].counter * 9) - PI / 8) * 8;
+  x1 = cos(angle_to_radians(pickup[dr].counter * 9) - M_PI / 8) * 8;
+  y1 = sin(angle_to_radians(pickup[dr].counter * 9) - M_PI / 8) * 8;
   putpixel(bmp, x + x1, y + y1, col - 2 - (pickup[dr].counter / 8) % 3);
   putpixel(bmp, x - x1, y - y1, col - 2 - (pickup[dr].counter / 8) % 3);
 
@@ -2838,12 +2843,12 @@ void draw_a_pickup(BITMAP *bmp, int dr, int x, int y)
    y1 = sin(angle_to_radians(pickup[dr].counter * 9)) * 8;
    putpixel(bmp, x + x1, y + y1, col - (pickup[dr].counter / 8) % 3);
    putpixel(bmp, x - x1, y - y1, col - (pickup[dr].counter / 8) % 3);
-   x1 = cos(angle_to_radians(pickup[dr].counter * 9) - PI / 4) * 8;
-   y1 = sin(angle_to_radians(pickup[dr].counter * 9) - PI / 4) * 8;
+   x1 = cos(angle_to_radians(pickup[dr].counter * 9) - M_PI / 4) * 8;
+   y1 = sin(angle_to_radians(pickup[dr].counter * 9) - M_PI / 4) * 8;
    putpixel(bmp, x + x1, y + y1, col - 4 - (pickup[dr].counter / 8) % 3);
    putpixel(bmp, x - x1, y - y1, col - 4 - (pickup[dr].counter / 8) % 3);
-   x1 = cos(angle_to_radians(pickup[dr].counter * 9) - PI / 8) * 8;
-   y1 = sin(angle_to_radians(pickup[dr].counter * 9) - PI / 8) * 8;
+   x1 = cos(angle_to_radians(pickup[dr].counter * 9) - M_PI / 8) * 8;
+   y1 = sin(angle_to_radians(pickup[dr].counter * 9) - M_PI / 8) * 8;
    putpixel(bmp, x + x1, y + y1, col - 2 - (pickup[dr].counter / 8) % 3);
    putpixel(bmp, x - x1, y - y1, col - 2 - (pickup[dr].counter / 8) % 3);
    rectfill(bmp, x - 4, y - 4, x + 4, y + 5, COLOUR_PURPLE1);
@@ -2881,7 +2886,7 @@ void draw_stars(BITMAP *bmp, int max_x, int max_y, int player)
 //   star_angle = asin(y / x);
 //    else
 //     star_angle = acos(x / y);
-  star_angle -= PI / 2;
+  star_angle -= M_PI / 2;
   x = cos(star_angle) * distance;// - 750;
   y = sin(star_angle) * distance;// - 750;
 

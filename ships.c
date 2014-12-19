@@ -55,7 +55,8 @@ SYST_NONE, // system 3
 0, // system 3 status 2
 BRAKES_DRAG, // brake type
 5, // brake strength
-1000 // armour                   },
+1000 // armour
+},
 {
 "Arrow",
 6000, // radius

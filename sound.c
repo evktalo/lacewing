@@ -32,6 +32,8 @@ enums in sound.h
 
 */
 
+#define ALLEGRO_NO_CLEAR_BITMAP_ALIAS
+#define ALLEGRO_NO_VHLINE_ALIAS
 #include "allegro.h"
 
 #include <string.h>
@@ -41,7 +43,7 @@ enums in sound.h
 #include "config.h"
 #include "globvars.h"
 
-#include "conio.h"
+#include "curses.h"
 #include "math.h"
 //DATAFILE *soundf;
 
@@ -126,7 +128,7 @@ void init_sound(void)
    }
 
    reserve_voices(10, 0);
-   if (install_sound (DIGI_AUTODETECT, MIDI_AUTODETECT, NULL) == -1)
+   if (install_sound (DIGI_AUTODETECT, MIDI_NONE, NULL) == -1)
    {
 //    allegro_message("\n\r\n\rSound autodetect failed.");
     sound_active = 0;
@@ -263,7 +265,7 @@ void load_sample_in(int samp, const char *sfile)
 
  char sfile_name [50];
 
- strcpy(sfile_name, ".\\sound\\");
+ strcpy(sfile_name, ".//sound//");
  strcat(sfile_name, sfile);
  strcat(sfile_name, ".wav");
 
@@ -678,7 +680,7 @@ void load_ambi_sample_in(int samp, const char *sfile)
 
  char sfile_name [50];
 
- strcpy(sfile_name, ".\\sound\\ambi\\");
+ strcpy(sfile_name, ".//sound//ambi//");
  strcat(sfile_name, sfile);
  strcat(sfile_name, ".wav");
 

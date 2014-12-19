@@ -30,6 +30,8 @@ This file contains:
  - functions relating to clouds and transient special effects
 
 */
+#define ALLEGRO_NO_CLEAR_BITMAP_ALIAS
+#define ALLEGRO_NO_VHLINE_ALIAS
 #include "allegro.h"
 
 #include <math.h>

@@ -31,6 +31,8 @@ This file contains:
 
 */
 
+#define ALLEGRO_NO_CLEAR_BITMAP_ALIAS
+#define ALLEGRO_NO_VHLINE_ALIAS
 #include "allegro.h"
 
 #include <math.h>
@@ -42,12 +44,12 @@ int turn_towards_angle(int angle, int tangle, int turning);
 
 float angle_to_radians(int angle)
 {
- return ((float) angle / ANGLE_FULL) * PI * 2;
+ return ((float) angle / ANGLE_FULL) * M_PI * 2;
 }
 
 int radians_to_angle(float angle)
 {
- return (angle * ANGLE_FULL) / (PI * 2);
+ return (angle * ANGLE_FULL) / (M_PI * 2);
 }
 
 fixed angle_to_fixed(int angle)

@@ -31,6 +31,8 @@ This file contains:
 
 */
 
+#define ALLEGRO_NO_CLEAR_BITMAP_ALIAS
+#define ALLEGRO_NO_VHLINE_ALIAS
 #include "allegro.h"
 
 #include "config.h"

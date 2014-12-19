@@ -31,6 +31,8 @@ This file contains:
 
 */
 
+#define ALLEGRO_NO_CLEAR_BITMAP_ALIAS
+#define ALLEGRO_NO_VHLINE_ALIAS
 #include "allegro.h"
 
 #include <math.h>
@@ -134,8 +136,16 @@ int special1, int special2, int special3, int special4, int special5)
    bullet[b].type = type;
 //   bullet[b].x = x + (x_speed - actor[owner].x_speed);
 //   bullet[b].y = y + (y_speed - actor[owner].y_speed);
-   bullet[b].x = x + (x_speed - actor[owner].x_speed) / speed_div;
-   bullet[b].y = y + (y_speed - actor[owner].y_speed) / speed_div;
+   if (owner != OWNER_ENEMY)
+   {
+       bullet[b].x = x + (x_speed - actor[owner].x_speed) / speed_div;
+       bullet[b].y = y + (y_speed - actor[owner].y_speed) / speed_div;
+   }
+   else
+   {
+       bullet[b].x = x + x_speed / speed_div;
+       bullet[b].y = y + y_speed / speed_div;
+   }
    bullet[b].x2 = x;
    bullet[b].y2 = y;
    bullet[b].x_speed = x_speed;
@@ -175,7 +185,7 @@ int special1, int special2, int special3, int special4, int special5)
      break;
 
    }
-   
+
    return b;
 
 }
@@ -1229,7 +1239,7 @@ int detect_collision(int b, int things [2])
 //        / actor[i].x - (bullet[b].x - bullet[b].x_speed)
 //   }
 
-//  bullet_angle += PI / 2;
+//  bullet_angle += M_PI / 2;
   x2 = cos(bullet_angle) * actor[i].radius * GRAIN;
   y2 = sin(bullet_angle) * actor[i].radius * GRAIN;
   xa = actor[i].x + x2;

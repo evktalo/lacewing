@@ -94,12 +94,14 @@ display.h
 
 
 
+#define ALLEGRO_NO_CLEAR_BITMAP_ALIAS
+#define ALLEGRO_NO_VHLINE_ALIAS
 #include "allegro.h"
 
-#include <conio.h>
+#include <curses.h>
 #include <string.h>
 #include <stdlib.h>
-#include <pc.h>
+//#include <pc.h>
 #include <math.h>
 
 #include "config.h"
@@ -199,7 +201,7 @@ END_OF_FUNCTION (tickover);
 
 int main(void)
 {
-
+/* TODO
  cprintf("\n\rHello and welcome to Lacewing version 1.10!");
  cprintf("\n\rCopyright 2003 by Linley Henzell & Captain Pork.\n\r");
  cprintf("\n\rLacewing is free software published under the");
@@ -210,9 +212,9 @@ int main(void)
  cprintf("\n\rPress Q to Quit, or any other key to continue...\n\r");
 
  char rkey;
-
+*/
  int randcount; // doesn't matter if it's not initialised - better, actually
-
+/*
  do
  {
    randcount ++;
@@ -224,7 +226,7 @@ int main(void)
   return 0;
  if (rkey == 0)
   getch();
-
+*/
  srandom(randcount);
 
  init_at_startup();

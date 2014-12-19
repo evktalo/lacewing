@@ -1,3 +1,5 @@
+#define ALLEGRO_NO_CLEAR_BITMAP_ALIAS
+#define ALLEGRO_NO_VHLINE_ALIAS
 #include "allegro.h"
 
 #include <stdlib.h>
@@ -56,7 +58,7 @@ void run_stars(void)
  int j = 0;
  int k = 1;
 
- if (game[0].users == 2)
+ if (game.users == 2)
   k = 2;
 
  for (j = 0; j < k; j ++)
