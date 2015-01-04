@@ -89,6 +89,8 @@ palette.h
  - the COLOUR_xxx and TRANS_xxx enums
 display.h
  - all the graphics enums
+scores.h
+ - score list definitions
 
 */
 
@@ -121,6 +123,7 @@ display.h
 #include "levels.h"
 #include "menu.h"
 #include "sound.h"
+#include "scores.h"
 
 // Global variables:
 
@@ -168,6 +171,7 @@ int slacktime;
 
 // init functions
 void init_at_startup(void);
+void init_config(void);
 void begin_game(void);
 // --- end init functions
 
@@ -245,8 +249,6 @@ void init_at_startup(void)
 
    allegro_init();
 
-   set_config_file("lacew.cfg");
-   
    install_keyboard();
    install_timer();
 
@@ -268,8 +270,9 @@ void init_at_startup(void)
    install_int (tickover, 30);
 
    set_color_depth(8);
+   init_config();
 
-   if (set_gfx_mode(GFX_AUTODETECT, 640, 480, 0, 0) != 0)
+   if (set_gfx_mode((options.windowed == 1) ? GFX_AUTODETECT_WINDOWED : GFX_AUTODETECT_FULLSCREEN, 640, 480, 0, 0) != 0)
    {
       set_gfx_mode(GFX_TEXT, 0, 0, 0, 0);
       allegro_message("Unable to set 640x480 mode\n%s\n", allegro_error);
@@ -286,5 +289,99 @@ void init_at_startup(void)
 
 }
 
+void init_config(void)
+{
+
+set_config_file("lacew.cfg");
+
+ char miscstring [40];
+ char wstring [40];
+ char itstring [40];
+ int i;
+
+ options.sound_init = get_config_int("Options", "Sound_init", 1);
+ options.sound_mode = get_config_int("Options", "Sound_mode", SOUNDMODE_STEREO);
+ options.run_vsync = get_config_int("Options", "Run_vsync", 0);
+ options.sound_volume = get_config_int("Options", "Sound_volume", 100);
+ options.ambience_volume = get_config_int("Options", "Ambience_volume", 100);
+ options.windowed = get_config_int("Options", "Windowed", 0);
+
+ for (i = 0; i < NO_CMDS; i ++)
+ {
+  strcpy(wstring, "Player1Keys");
+  strcpy(miscstring, "Key");
+  strcpy(itstring, "");
+  //strcat(miscstring, itoa(i, itstring, 10));
+  sprintf(itstring, "%d", i);
+  strcat(miscstring, itstring);
+  player[0].keys [i] = get_config_int(wstring, miscstring, KEY_X);
+ }
+
+ for (i = 0; i < NO_CMDS; i ++)
+ {
+  strcpy(wstring, "Player2Keys");
+  strcpy(miscstring, "Key");
+  strcpy(itstring, "");
+  //strcat(miscstring, itoa(i, itstring, 10));
+  sprintf(itstring, "%d", i);
+  strcat(miscstring, itstring);
+  player[1].keys [i] = get_config_int(wstring, miscstring, KEY_SPACE);
+ }
+
+ for (i = 0; i < NO_SCORES; i ++)
+ {
+  strcpy(wstring, "Highscores_single");
+  strcpy(miscstring, "Score");
+  strcpy(itstring, "");
+  //strcat(miscstring, itoa(i, itstring, 10));
+  sprintf(itstring, "%d", i);
+  strcat(miscstring, itstring);
+  hs_single[i].score = get_config_int(wstring, miscstring, 100);
+  strcpy(miscstring, "Level");
+  strcpy(itstring, "");
+  //strcat(miscstring, itoa(i, itstring, 10));
+  sprintf(itstring, "%d", i);
+  strcat(miscstring, itstring);
+  hs_single[i].level = get_config_int(wstring, miscstring, 1);
+  strcpy(miscstring, "Ship");
+  strcpy(itstring, "");
+  //strcat(miscstring, itoa(i, itstring, 10));
+  sprintf(itstring, "%d", i);
+  strcat(miscstring, itstring);
+  hs_single[i].ship = get_config_int(wstring, miscstring, SHIP_LACEWING);
+  strcpy(miscstring, "Name");
+  strcpy(itstring, "");
+  //strcat(miscstring, itoa(i, itstring, 10));
+  sprintf(itstring, "%d", i);
+  strcat(miscstring, itstring);
+  strcpy(hs_single[i].name, get_config_string(wstring, miscstring, "CaptainP"));
+  strcpy(wstring, "Highscores_Coop");
+  strcpy(miscstring, "Score");
+  strcpy(itstring, "");
+  //strcat(miscstring, itoa(i, itstring, 10));
+  sprintf(itstring, "%d", i);
+  strcat(miscstring, itstring);
+  hs_coop[i].score = get_config_int(wstring, miscstring, 100);
+  strcpy(miscstring, "Level");
+  strcpy(itstring, "");
+  //strcat(miscstring, itoa(i, itstring, 10));
+  sprintf(itstring, "%d", i);
+  strcat(miscstring, itstring);
+  hs_coop[i].level = get_config_int(wstring, miscstring, 1);
+  strcpy(miscstring, "Ship");
+  strcpy(itstring, "");
+  //strcat(miscstring, itoa(i, itstring, 10));
+  sprintf(itstring, "%d", i);
+  strcat(miscstring, itstring);
+  hs_coop[i].ship = get_config_int(wstring, miscstring, SHIP_LACEWING);
+  strcpy(miscstring, "Name");
+  strcpy(itstring, "");
+  //strcat(miscstring, itoa(i, itstring, 10));
+  sprintf(itstring, "%d", i);
+  strcat(miscstring, itstring);
+  strcpy(hs_coop[i].name, get_config_string(wstring, miscstring, "CaptainP"));
+ }
+
+}
 
 

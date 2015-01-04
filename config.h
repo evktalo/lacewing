@@ -790,6 +790,7 @@ struct optionstruct
  int run_vsync; // on or off
  int sound_volume; // sound fx volume; if 0 sound effects not played
  int ambience_volume; // if 0 ambience not played
+ int windowed; // if 0, fullscreen, if 1, windowed
 };
 
 struct starstruct

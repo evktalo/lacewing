@@ -51,8 +51,7 @@ which are authorised to write directly to the screen.
 #include "display.h"
 #include "sound.h"
 
-#define NO_SCORES 15
-#define SCORE_LENGTH 15
+#include "scores.h"
 
 #define GRID_GRAIN 100
 #define NO_BOUNCIES 16
@@ -140,7 +139,6 @@ void change_menu(int to_which);
 int option_index(void);
 void enter_keystroke(void);
 int option_jump(int direction);
-void init_config(void);
 void save_config(void);
 
 void choose_ships(void);
@@ -156,19 +154,6 @@ char *ship_description2(int ship);
 char *upgrade_name_long(int i);
 
 extern RLE_SPRITE *large_ships [12] [5];
-
-struct score_list
-{
-  int score;
-  int ship;
-  int level;
-  char name [25];
-};
-
-struct score_list hs_single [NO_SCORES];
-struct score_list hs_coop [NO_SCORES];
-
-struct score_list *hscore;
 
 void check_high_scores(void);
 int enter_score_name_single(int s);
@@ -207,7 +192,6 @@ void draw_bouncies(void);
 void init_menus_once_only(void)
 {
  text_mode(-1);
- init_config();
 
  menu_bmp = create_bitmap(640, 480);
 
@@ -606,7 +590,7 @@ void menu_display_options(void)
   char ostr [50];
   char istr [10];
 
-  for (i = 0; i < 32; i ++)
+  for (i = 0; i < 33; i ++)
   {
 
    col = COLOUR_GREEN6;
@@ -680,107 +664,114 @@ void menu_display_options(void)
         strcat(ostr, "On");
      break;
     case 5:
-     strcpy(ostr, "Test Speakers");
+     strcpy(ostr, "Windowed - ");
+     if (options.windowed == 0)
+      strcat(ostr, "Off");
+     else
+      strcat(ostr, "On");
      break;
     case 6:
-     strcpy(ostr, "Test Keys");
+     strcpy(ostr, "Test Speakers");
      break;
     case 7:
-     strcpy(ostr, "");
+     strcpy(ostr, "Test Keys");
      break;
     case 8:
+     strcpy(ostr, "");
+     break;
+    case 9:
      col = COLOUR_GREY6;
      strcpy(ostr, "Player 1 Keys");
      break;
-    case 9:
+    case 10:
      strcpy(ostr, "Forwards - ");
      strcat(ostr, scancode_to_keyname(player[0].keys [CMD_THRUST]));
      break;
-    case 10:
+    case 11:
      strcpy(ostr, "Left - ");
      strcat(ostr, scancode_to_keyname(player[0].keys [CMD_LEFT]));
      break;
-    case 11:
+    case 12:
      strcpy(ostr, "Right - ");
      strcat(ostr, scancode_to_keyname(player[0].keys [CMD_RIGHT]));
      break;
-    case 12:
+    case 13:
      strcpy(ostr, "Brake - ");
      strcat(ostr, scancode_to_keyname(player[0].keys [CMD_BRAKE]));
      break;
-    case 13:
+    case 14:
      strcpy(ostr, "Fire Cannon - ");
      strcat(ostr, scancode_to_keyname(player[0].keys [CMD_FIRE1]));
      break;
-    case 14:
+    case 15:
      strcpy(ostr, "Fire Secondary - ");
      strcat(ostr, scancode_to_keyname(player[0].keys [CMD_FIRE2]));
      break;
-    case 15:
+    case 16:
      strcpy(ostr, "Upgrade - ");
      strcat(ostr, scancode_to_keyname(player[0].keys [CMD_UPGRADE]));
      break;
-    case 16:
+    case 17:
      strcpy(ostr, "Slide Left - ");
      strcat(ostr, scancode_to_keyname(player[0].keys [CMD_LEFT1]));
      break;
-    case 17:
+    case 18:
      strcpy(ostr, "Slide Right - ");
      strcat(ostr, scancode_to_keyname(player[0].keys [CMD_RIGHT1]));
      break;
-    case 18:
+    case 19:
      strcpy(ostr, "Toggle Linked Fire - ");
      strcat(ostr, scancode_to_keyname(player[0].keys [CMD_LINK]));
      break;
-    case 19:
+    case 20:
      col = COLOUR_GREY6;
      strcpy(ostr, "Player 2 Keys");
      break;
-    case 20:
+    case 21:
      strcpy(ostr, "Forwards - ");
      strcat(ostr, scancode_to_keyname(player[1].keys [CMD_THRUST]));
      break;
-    case 21:
+    case 22:
      strcpy(ostr, "Left - ");
      strcat(ostr, scancode_to_keyname(player[1].keys [CMD_LEFT]));
      break;
-    case 22:
+    case 23:
      strcpy(ostr, "Right - ");
      strcat(ostr, scancode_to_keyname(player[1].keys [CMD_RIGHT]));
      break;
-    case 23:
+    case 24:
      strcpy(ostr, "Brake - ");
      strcat(ostr, scancode_to_keyname(player[1].keys [CMD_BRAKE]));
      break;
-    case 24:
+    case 25:
      strcpy(ostr, "Fire Cannon - ");
      strcat(ostr, scancode_to_keyname(player[1].keys [CMD_FIRE1]));
      break;
-    case 25:
+    case 26:
      strcpy(ostr, "Fire Secondary - ");
      strcat(ostr, scancode_to_keyname(player[1].keys [CMD_FIRE2]));
      break;
-    case 26:
+    case 27:
      strcpy(ostr, "Upgrade - ");
      strcat(ostr, scancode_to_keyname(player[1].keys [CMD_UPGRADE]));
      break;
-    case 27:
+    case 28:
      strcpy(ostr, "Slide Left - ");
      strcat(ostr, scancode_to_keyname(player[1].keys [CMD_LEFT1]));
      break;
-    case 28:
+    case 29:
      strcpy(ostr, "Slide Right - ");
      strcat(ostr, scancode_to_keyname(player[1].keys [CMD_RIGHT1]));
      break;
-    case 29:
+    case 30:
      strcpy(ostr, "Toggle Linked Fire - ");
      strcat(ostr, scancode_to_keyname(player[1].keys [CMD_LINK]));
      break;
-    case 30:
+    case 31:
      strcpy(ostr, "");
 //     strcat(ostr, scancode_to_keyname(player[1].keys [CMD_LINK])
      break;
-    case 31:
+    case 32:
      strcpy(ostr, "Exit");
      break;
 
@@ -808,10 +799,10 @@ int option_jump(int direction)
  {
 //  case 5:
 //  case 6:
-  case 7:
   case 8:
-  case 19:
-  case 30:
+  case 9:
+  case 20:
+  case 31:
    return 1;
  }
 
@@ -1126,13 +1117,13 @@ void menu_trigger(void)
    }
    break;
   case MENU_OPTIONS:
-   if (menu_index == 31)
+   if (menu_index == 32)
    {
     play_sound(WAV_MENU2);
     change_menu(MENU_MAIN);
     break;
    }
-   if (menu_index < 9)
+   if (menu_index < 10)
    {
     switch(menu_index)
     {
@@ -1165,11 +1156,18 @@ void menu_trigger(void)
       play_sound(WAV_MENU1);
       return;
      case 5:
+      if (options.windowed == 1)
+       options.windowed = 0;
+      else
+       options.windowed = 1;
+      play_sound(WAV_MENU1);
+      return;
+     case 6:
       test_speakers();
       ticked = 0;
 // test speakers
       return;
-     case 6:
+     case 7:
       play_sound(WAV_MENU2);
       jam_keys();
       return;
@@ -1278,7 +1276,7 @@ void enter_keystroke(void)
   if (option_index() == -1)
    return;
 
-  if (menu_index < 20)
+  if (menu_index < 21)
    player[0].keys [option_index()] = inputted;
     else
      player[1].keys [option_index()] = inputted;
@@ -1292,35 +1290,35 @@ int option_index(void)
 {
   switch(menu_index)
   {
-   case 9:
-   case 20:
-    return CMD_THRUST;
    case 10:
    case 21:
-    return CMD_LEFT;
+    return CMD_THRUST;
    case 11:
    case 22:
-    return CMD_RIGHT;
+    return CMD_LEFT;
    case 12:
    case 23:
-    return CMD_BRAKE;
+    return CMD_RIGHT;
    case 13:
    case 24:
-    return CMD_FIRE1;
+    return CMD_BRAKE;
    case 14:
    case 25:
-    return CMD_FIRE2;
+    return CMD_FIRE1;
    case 15:
    case 26:
-    return CMD_UPGRADE;
+    return CMD_FIRE2;
    case 16:
    case 27:
-    return CMD_LEFT1;
+    return CMD_UPGRADE;
    case 17:
    case 28:
-    return CMD_RIGHT1;
+    return CMD_LEFT1;
    case 18:
    case 29:
+    return CMD_RIGHT1;
+   case 19:
+   case 30:
     return CMD_LINK;
   }
 
@@ -1401,7 +1399,7 @@ void change_menu(int to_which)
   case MENU_OPTIONS:
     which_menu = MENU_OPTIONS;
     menu_index = 1;
-    menu_index_max = 31;
+    menu_index_max = 32;
     menu_index_min = 1;
     break;
   case MENU_DUEL:
@@ -2786,102 +2784,6 @@ default: return '\0';
 
 }
 
-void init_config(void)
-{
-
-set_config_file("lacew.cfg");
-
-
- char miscstring [40];
- char wstring [40];
- char itstring [40];
- int i;
-
-
- options.sound_init = get_config_int("Options", "Sound_init", 1);
- options.sound_mode = get_config_int("Options", "Sound_mode", SOUNDMODE_STEREO);
- options.run_vsync = get_config_int("Options", "Run_vsync", 0);
- options.sound_volume = get_config_int("Options", "Sound_volume", 100);
- options.ambience_volume = get_config_int("Options", "Ambience_volume", 100);
-
- for (i = 0; i < NO_CMDS; i ++)
- {
-  strcpy(wstring, "Player1Keys");
-  strcpy(miscstring, "Key");
-  strcpy(itstring, "");
-  //strcat(miscstring, itoa(i, itstring, 10));
-  sprintf(itstring, "%d", i);
-  strcat(miscstring, itstring);
-  player[0].keys [i] = get_config_int(wstring, miscstring, KEY_X);
- }
-
- for (i = 0; i < NO_CMDS; i ++)
- {
-  strcpy(wstring, "Player2Keys");
-  strcpy(miscstring, "Key");
-  strcpy(itstring, "");
-  //strcat(miscstring, itoa(i, itstring, 10));
-  sprintf(itstring, "%d", i);
-  strcat(miscstring, itstring);
-  player[1].keys [i] = get_config_int(wstring, miscstring, KEY_SPACE);
- }
-
- for (i = 0; i < NO_SCORES; i ++)
- {
-  strcpy(wstring, "Highscores_single");
-  strcpy(miscstring, "Score");
-  strcpy(itstring, "");
-  //strcat(miscstring, itoa(i, itstring, 10));
-  sprintf(itstring, "%d", i);
-  strcat(miscstring, itstring);
-  hs_single[i].score = get_config_int(wstring, miscstring, 100);
-  strcpy(miscstring, "Level");
-  strcpy(itstring, "");
-  //strcat(miscstring, itoa(i, itstring, 10));
-  sprintf(itstring, "%d", i);
-  strcat(miscstring, itstring);
-  hs_single[i].level = get_config_int(wstring, miscstring, 1);
-  strcpy(miscstring, "Ship");
-  strcpy(itstring, "");
-  //strcat(miscstring, itoa(i, itstring, 10));
-  sprintf(itstring, "%d", i);
-  strcat(miscstring, itstring);
-  hs_single[i].ship = get_config_int(wstring, miscstring, SHIP_LACEWING);
-  strcpy(miscstring, "Name");
-  strcpy(itstring, "");
-  //strcat(miscstring, itoa(i, itstring, 10));
-  sprintf(itstring, "%d", i);
-  strcat(miscstring, itstring);
-  strcpy(hs_single[i].name, get_config_string(wstring, miscstring, "CaptainP"));
-  strcpy(wstring, "Highscores_Coop");
-  strcpy(miscstring, "Score");
-  strcpy(itstring, "");
-  //strcat(miscstring, itoa(i, itstring, 10));
-  sprintf(itstring, "%d", i);
-  strcat(miscstring, itstring);
-  hs_coop[i].score = get_config_int(wstring, miscstring, 100);
-  strcpy(miscstring, "Level");
-  strcpy(itstring, "");
-  //strcat(miscstring, itoa(i, itstring, 10));
-  sprintf(itstring, "%d", i);
-  strcat(miscstring, itstring);
-  hs_coop[i].level = get_config_int(wstring, miscstring, 1);
-  strcpy(miscstring, "Ship");
-  strcpy(itstring, "");
-  //strcat(miscstring, itoa(i, itstring, 10));
-  sprintf(itstring, "%d", i);
-  strcat(miscstring, itstring);
-  hs_coop[i].ship = get_config_int(wstring, miscstring, SHIP_LACEWING);
-  strcpy(miscstring, "Name");
-  strcpy(itstring, "");
-  //strcat(miscstring, itoa(i, itstring, 10));
-  sprintf(itstring, "%d", i);
-  strcat(miscstring, itstring);
-  strcpy(hs_coop[i].name, get_config_string(wstring, miscstring, "CaptainP"));
- }
-
-}
-
 void save_config(void)
 {
  char miscstring [40];
@@ -2894,6 +2796,7 @@ void save_config(void)
  set_config_int("Options", "Run_vsync", options.run_vsync);
  set_config_int("Options", "Sound_volume", options.sound_volume);
  set_config_int("Options", "Ambience_volume", options.ambience_volume);
+ set_config_int("Options", "Windowed", options.windowed);
 
  for (i = 0; i < NO_CMDS; i ++)
  {
