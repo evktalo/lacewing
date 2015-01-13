@@ -10,8 +10,6 @@ extern struct bulletstruct bullet [NO_BULLETS];
 
 extern struct cloudstruct cloud [NO_CLOUDS];
 
-extern struct starstruct star [NO_STARS];
-
 extern unsigned char counter;
 
 extern struct armoury weapons [NO_WEAPONS];

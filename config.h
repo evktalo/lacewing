@@ -4,7 +4,6 @@
 #define NO_PLAYERS 2
 #define GRAIN 1000
 //#define NO_CMDS 12
-#define NO_STARS 100
 #define NO_PICKUPS 20
 
 #define MAX_SCORE 9999999
@@ -791,15 +790,6 @@ struct optionstruct
  int sound_volume; // sound fx volume; if 0 sound effects not played
  int ambience_volume; // if 0 ambience not played
  int windowed; // if 0, fullscreen, if 1, windowed
-};
-
-struct starstruct
-{
- int colour [2];
- int x [2];
- int y [2];
- char distance [2];
-
 };
 
 struct gamestruct

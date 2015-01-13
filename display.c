@@ -88,7 +88,6 @@ float angle_to_radians(int angle);
 int inflicteda, inflictede;
 
 //void draw_grid(BITMAP *bmp, int xloc, int yloc, int max_x, int max_y, int colour);
-void draw_stars(BITMAP *bmp, int max_x, int max_y, int player);
 void draw_grid(BITMAP *bmp, int max_x, int max_y, int play, int colour, int edge_colour, int x_offset);
 void draw_actors(BITMAP *bmp, int max_x, int max_y, int play);
 void draw_hud(BITMAP *bmp, int x, int y, int i);
@@ -153,7 +152,6 @@ void run_display(void)
   set_turret_lock_x [game.single_player] = 0;
   set_turret_lock_y [game.single_player] = 0;
   set_turret_lock_radius [game.single_player] = 0;
-//  draw_stars(player1, 640, 480, 0);
   clear_to_color(player1, arena.colour3);
   draw_grid(player1, 640, 480, game.single_player, arena.colour1, arena.colour2, 35000);
   draw_pickups(player1, 640, 480, game.single_player);
@@ -201,7 +199,6 @@ void run_display(void)
    set_turret_lock_x [1] = 0;
    set_turret_lock_y [1] = 0;
    set_turret_lock_radius [1] = 0;
-//   draw_stars(player1, 310, 480, 0);
    clear_to_color(player1, arena.colour3);
    clear_to_color(player2, arena.colour3);
    draw_grid(player1, 315, 480, 0, arena.colour1, arena.colour2, -2000);
@@ -219,7 +216,6 @@ void run_display(void)
    indicate_fps(player1, 0);
    display_messages(player1, 0, 310, 480);
    
-//   draw_stars(player2, 310, 480, 1);
    draw_grid(player2, 315, 480, 1, arena.colour1, arena.colour2, -2000);
    draw_pickups(player2, 315, 480, 1);
    draw_enemies(player2, 315, 480, 1);
@@ -2858,48 +2854,6 @@ void draw_a_pickup(BITMAP *bmp, int dr, int x, int y)
  }
 
 }
-
-
-/*
-void draw_stars(BITMAP *bmp, int max_x, int max_y, int player)
-{
- int i, x, y;
-
- float star_angle;
- int distance;
-
- for (i = 0; i < NO_STARS; i ++)
- {
-  x = star[i].x [player] / GRAIN;
-  if (x == 0)
-   continue;
-  y = star[i].y [player] / GRAIN;
-  x -= 600;
-  y -= 600;
-  distance = hypot(x, y);
-  if (x == 0 || y == 0)
-   continue;
-//  star_angle = atan((float) ((float) (y - 750) / (float) (x - 750)));
-//  star_angle = atan((float) ((float) y / (float) x));
-  star_angle = atan2((float) y, (float) x);
-//  if (x > y)
-//   star_angle = asin(y / x);
-//    else
-//     star_angle = acos(x / y);
-  star_angle -= M_PI / 2;
-  x = cos(star_angle) * distance;// - 750;
-  y = sin(star_angle) * distance;// - 750;
-
-//  putpixel(bmp, x, y, star[i].colour [player]);
-//  circlefill(bmp, x + max_x / 2, y + max_y / 2, 2, 3);
-  putpixel(bmp, x + max_x / 2, y + (max_y / 4) * 3, star[i].colour [player]);
- }
-
-//  circlefill(bmp, max_x / 2, (max_y / 4) * 3, 2, 5);
-
-
-}
-*/
 
 /*
 Warning - this function uses a lot of really horrible magic numbers.

@@ -115,7 +115,6 @@ scores.h
 #include "cmds.h"
 #include "input.h"
 #include "actor.h"
-//#include "stars.h"
 #include "bullet.h"
 #include "cloud.h"
 //#include "ships.h"
@@ -136,8 +135,6 @@ struct actorstruct actor [NO_ACTORS];
 struct bulletstruct bullet [NO_BULLETS];
 
 struct cloudstruct cloud [NO_CLOUDS];
-
-struct starstruct star [NO_STARS];
 
 struct arenastruct arena;
 

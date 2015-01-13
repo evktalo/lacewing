@@ -88,7 +88,6 @@ void game_loop(void)
   run_actors();
   run_bullets(); // should be between actors and enemies for orbitals to work
   run_clouds();
-//  run_stars();
   run_enemies();
   run_pickups();
   play_ambience();
@@ -359,7 +358,6 @@ void begin_game(void)
    
  init_bullets();
  init_clouds();
-// init_stars();
  init_enemies();
  prepare_display();
 
