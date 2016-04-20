@@ -295,7 +295,7 @@ void play_sound(int sample)
  return;
 #endif
 
- if (sound_active == 0 || options.sound_volume == 0) return;
+ if (sound_active == 0 || options.sound_volume == 0 || options.sound_mode == SOUNDMODE_OFF) return;
 
 /* stop_sample(soundf[WAV_POP].dat);
  stop_sample(soundf[WAV_RICOCHET].dat);
@@ -314,7 +314,7 @@ void play_sound2(int sample, int frq, int vol, int pan)
  return;
 #endif
 
- if (sound_active == 0 || options.sound_volume == 0) return;
+ if (sound_active == 0 || options.sound_volume == 0 || options.sound_mode == SOUNDMODE_OFF) return;
 /*
  stop_sample(soundf[WAV_POP].dat);
  stop_sample(soundf[WAV_RICOCHET].dat);
@@ -333,7 +333,7 @@ void play_soundf(int sample, int frq)
  return;
 #endif
 
- if (sound_active == 0 || options.sound_volume == 0) return;
+ if (sound_active == 0 || options.sound_volume == 0 || options.sound_mode == SOUNDMODE_OFF) return;
  play_sample(sounds [sample], (int) (255 * options.sound_volume) / 100, 127, frq, 0);
 
 
@@ -350,7 +350,7 @@ void play_sound_pos(int sample, int frq, int vol, int x2, int y2)
  return;
 #endif
 
- if (sound_active == 0 || options.sound_volume == 0) return;
+ if (sound_active == 0 || options.sound_volume == 0 || options.sound_mode == SOUNDMODE_OFF) return;
 
 /* stop_sample(soundf[WAV_POP].dat);
  stop_sample(soundf[WAV_RICOCHET].dat);
@@ -481,9 +481,7 @@ Ambience functions
 void play_ambience(void)
 {
 
- if (sound_active == 0 || options.ambience_volume == 0)
-  return;
- if (options.ambience_volume == 0)
+ if (sound_active == 0 || options.ambience_volume == 0 || options.sound_mode == SOUNDMODE_OFF)
   return;
   
  int tempo = 2;
@@ -532,7 +530,7 @@ void play_ambience(void)
 void calculate_ambience(void)
 {
 
- if (sound_active == 0)
+ if (sound_active == 0 || options.sound_mode == SOUNDMODE_OFF)
   return;
  if (options.ambience_volume == 0)
   return;
@@ -635,7 +633,7 @@ void play_ambifv(int samp, int freq, int vol)
 void init_ambience(void)
 {
 
- if (sound_active == 0)
+ if (sound_active == 0 || options.sound_mode == SOUNDMODE_OFF)
   return;
 
  load_ambi_sample_in(AMBI_BDRUM, "bdrum");
