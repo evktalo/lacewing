@@ -52,7 +52,6 @@ This file contains:
 #include "display.h"
 #include "displ_in.h"
 #include "cmds.h"
-#include "ships.h"
 #include "pickup.h"
 #include "sound.h"
 

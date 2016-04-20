@@ -117,7 +117,6 @@ scores.h
 #include "actor.h"
 #include "bullet.h"
 #include "cloud.h"
-//#include "ships.h"
 #include "enemy.h"
 #include "levels.h"
 #include "menu.h"
