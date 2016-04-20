@@ -2791,7 +2791,7 @@ void save_config(void)
  char itstring [40];
  int i;
 
-// options.sound_init = get_config_int("Options", "Sound_init", 1);
+ set_config_int("Options", "Sound_init", options.sound_init);
  set_config_int("Options", "Sound_mode", options.sound_mode);
  set_config_int("Options", "Run_vsync", options.run_vsync);
  set_config_int("Options", "Sound_volume", options.sound_volume);
