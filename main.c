@@ -302,6 +302,8 @@ set_config_file("lacew.cfg");
  options.ambience_volume = get_config_int("Options", "Ambience_volume", 100);
  options.windowed = get_config_int("Options", "Windowed", 0);
 
+ int p1_keys_default[NO_CMDS] = {KEY_8_PAD, KEY_4_PAD, KEY_6_PAD, KEY_0_PAD, KEY_ENTER_PAD, KEY_2_PAD, KEY_1_PAD, KEY_3_PAD, KEY_PLUS_PAD, KEY_SLASH_PAD};
+
  for (i = 0; i < NO_CMDS; i ++)
  {
   strcpy(wstring, "Player1Keys");
@@ -310,8 +312,10 @@ set_config_file("lacew.cfg");
   //strcat(miscstring, itoa(i, itstring, 10));
   sprintf(itstring, "%d", i);
   strcat(miscstring, itstring);
-  player[0].keys [i] = get_config_int(wstring, miscstring, KEY_X);
+  player[0].keys [i] = get_config_int(wstring, miscstring, p1_keys_default[i]);
  }
+
+ int p2_keys_default[NO_CMDS] = {KEY_W, KEY_A, KEY_D, KEY_Q, KEY_TAB, KEY_S, KEY_Z, KEY_X, KEY_E, KEY_1};
 
  for (i = 0; i < NO_CMDS; i ++)
  {
@@ -321,8 +325,10 @@ set_config_file("lacew.cfg");
   //strcat(miscstring, itoa(i, itstring, 10));
   sprintf(itstring, "%d", i);
   strcat(miscstring, itstring);
-  player[1].keys [i] = get_config_int(wstring, miscstring, KEY_SPACE);
+  player[1].keys [i] = get_config_int(wstring, miscstring, p2_keys_default[i]);
  }
+
+ struct score_list single_hs_default[NO_SCORES] = {{30000, SHIP_LACEWING, 11, "Jub-Jub"}, {20000, SHIP_HOOKWORM, 10, "Slurpy"}, {15000, SHIP_AETHER, 9, "Antlion"}, {12000, SHIP_CAPYBARA, 8, "Schnorkel"}, {10000, SHIP_LACEWING, 8, "Legit"}, {9000, SHIP_PORKUPINE, 7, "Asdfgh"}, {8000, SHIP_CAPYBARA, 6, "Nemelex"}, {7000, SHIP_TORTFEASOR, 6, "Hi there"}, {6000, SHIP_DESPOT, 6, "Hello"}, {5000, SHIP_HOOKWORM, 5, "Quirp"}, {4000, SHIP_LENTIL, 5, "Hi there"}, {3000, SHIP_LACEWING, 4, "Kikubaaqudgha"}, {2000, SHIP_PRONG, 3, "Qwerty"}, {1000, SHIP_LACEWING, 2, "Capt Pork"}, {700, SHIP_LACEWING, 1, "Capt Pork"}};
 
  for (i = 0; i < NO_SCORES; i ++)
  {
@@ -332,52 +338,56 @@ set_config_file("lacew.cfg");
   //strcat(miscstring, itoa(i, itstring, 10));
   sprintf(itstring, "%d", i);
   strcat(miscstring, itstring);
-  hs_single[i].score = get_config_int(wstring, miscstring, 100);
+  hs_single[i].score = get_config_int(wstring, miscstring, single_hs_default[i].score);
   strcpy(miscstring, "Level");
   strcpy(itstring, "");
   //strcat(miscstring, itoa(i, itstring, 10));
   sprintf(itstring, "%d", i);
   strcat(miscstring, itstring);
-  hs_single[i].level = get_config_int(wstring, miscstring, 1);
+  hs_single[i].level = get_config_int(wstring, miscstring, single_hs_default[i].level);
   strcpy(miscstring, "Ship");
   strcpy(itstring, "");
   //strcat(miscstring, itoa(i, itstring, 10));
   sprintf(itstring, "%d", i);
   strcat(miscstring, itstring);
-  hs_single[i].ship = get_config_int(wstring, miscstring, SHIP_LACEWING);
+  hs_single[i].ship = get_config_int(wstring, miscstring, single_hs_default[i].ship);
   strcpy(miscstring, "Name");
   strcpy(itstring, "");
   //strcat(miscstring, itoa(i, itstring, 10));
   sprintf(itstring, "%d", i);
   strcat(miscstring, itstring);
-  strcpy(hs_single[i].name, get_config_string(wstring, miscstring, "CaptainP"));
+  strcpy(hs_single[i].name, get_config_string(wstring, miscstring, single_hs_default[i].name));
+ }
+
+ struct score_list coop_hs_default[NO_SCORES] = {{27265, SHIP_LACEWING, 9, "CaptainP"}, {25920, SHIP_CAPYBARA, 10, "CaptainP"}, {10160, SHIP_AETHER, 5, "CaptainP"}, {8650, SHIP_AETHER, 6, "Captain Squid"}, {1735, SHIP_PRONG, 3, "CaptainP"}, {610, SHIP_DESPOT, 1, "CaptainP"}, {600, SHIP_CAPYBARA, 2, "CaptainP"}, {120, SHIP_DESPOT, 1, "CaptainP"}, {100, SHIP_LACEWING, 1, "CaptainP"}, {100, SHIP_LACEWING, 1, "CaptainP"}, {100, SHIP_LACEWING, 1, "CaptainP"}, {100, SHIP_LACEWING, 1, "CaptainP"}, {100, SHIP_LACEWING, 1, "CaptainP"}, {100, SHIP_LACEWING, 1, "CaptainP"}, {100, SHIP_LACEWING, 1, "Capt Pork"}};
+
+ for (i = 0; i < NO_SCORES; i ++)
+ {
   strcpy(wstring, "Highscores_Coop");
   strcpy(miscstring, "Score");
   strcpy(itstring, "");
   //strcat(miscstring, itoa(i, itstring, 10));
   sprintf(itstring, "%d", i);
   strcat(miscstring, itstring);
-  hs_coop[i].score = get_config_int(wstring, miscstring, 100);
+  hs_coop[i].score = get_config_int(wstring, miscstring, coop_hs_default[i].score);
   strcpy(miscstring, "Level");
   strcpy(itstring, "");
   //strcat(miscstring, itoa(i, itstring, 10));
   sprintf(itstring, "%d", i);
   strcat(miscstring, itstring);
-  hs_coop[i].level = get_config_int(wstring, miscstring, 1);
+  hs_coop[i].level = get_config_int(wstring, miscstring, coop_hs_default[i].level);
   strcpy(miscstring, "Ship");
   strcpy(itstring, "");
   //strcat(miscstring, itoa(i, itstring, 10));
   sprintf(itstring, "%d", i);
   strcat(miscstring, itstring);
-  hs_coop[i].ship = get_config_int(wstring, miscstring, SHIP_LACEWING);
+  hs_coop[i].ship = get_config_int(wstring, miscstring, coop_hs_default[i].ship);
   strcpy(miscstring, "Name");
   strcpy(itstring, "");
   //strcat(miscstring, itoa(i, itstring, 10));
   sprintf(itstring, "%d", i);
   strcat(miscstring, itstring);
-  strcpy(hs_coop[i].name, get_config_string(wstring, miscstring, "CaptainP"));
+  strcpy(hs_coop[i].name, get_config_string(wstring, miscstring, coop_hs_default[i].name));
  }
 
 }
-
-
